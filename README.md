@@ -1,10 +1,6 @@
 # GreengrocerApp · Sistema de gestión para verdulería
 
-Aplicación de escritorio para administrar una verdulería: catálogo de
-productos, control de inventario, clientes, proveedores, punto de venta,
-historial de ventas y reportes. Construida con **Java + Swing + MySQL**
-bajo una arquitectura por capas (Modelo / DAO / Servicio / Vista) sobre la
-base del paradigma de Programación Orientada a Objetos.
+Aplicación de escritorio para administrar una verdulería: catálogo de productos, control de inventario, clientes, proveedores, punto de venta, historial de ventas y reportes. Construida con **Java + Swing + MySQL** bajo una arquitectura por capas (Modelo / DAO / Servicio / Vista) sobre la base del paradigma de Programación Orientada a Objetos.
 
 > Reescritura completa del proyecto original. La versión anterior usaba
 > JFrames con SQL embebido y contraseñas en texto plano; ésta separa
