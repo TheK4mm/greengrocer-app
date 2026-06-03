@@ -7,6 +7,7 @@ import com.greengrocer.model.enums.RolUsuario;
 import com.greengrocer.service.AuthService;
 import com.greengrocer.service.Session;
 import com.greengrocer.view.components.FormField;
+import com.greengrocer.view.components.PasswordField;
 import com.greengrocer.view.components.PrimaryButton;
 import com.greengrocer.view.components.SecondaryButton;
 import com.greengrocer.view.components.Toast;
@@ -20,7 +21,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
@@ -46,14 +46,14 @@ public class LoginFrame extends JFrame {
     private static final Color BRAND_TAG = new Color(0xC8E6C9);
 
     // Credenciales (login)
-    private final JTextField     txtUsuario  = new JTextField();
-    private final JPasswordField txtPassword = new JPasswordField();
+    private final JTextField    txtUsuario  = new JTextField();
+    private final PasswordField txtPassword = new PasswordField();
 
     // Registro
-    private final JTextField     txtRegNombre   = new JTextField();
-    private final JTextField     txtRegUsuario  = new JTextField();
-    private final JPasswordField txtRegPassword = new JPasswordField();
-    private final JPasswordField txtRegConfirm  = new JPasswordField();
+    private final JTextField    txtRegNombre   = new JTextField();
+    private final JTextField    txtRegUsuario  = new JTextField();
+    private final PasswordField txtRegPassword = new PasswordField();
+    private final PasswordField txtRegConfirm  = new PasswordField();
 
     private final AuthService authService = new AuthService();
     private final CardLayout  cards = new CardLayout();
@@ -65,11 +65,6 @@ public class LoginFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(900, 600));
         setLayout(new BorderLayout());
-
-        // Botón nativo de FlatLaf para mostrar/ocultar la contraseña.
-        for (JPasswordField pf : new JPasswordField[]{txtPassword, txtRegPassword, txtRegConfirm}) {
-            pf.putClientProperty("JPasswordField.showRevealButton", true);
-        }
 
         root.setLayout(cards);
         root.add(buildView(buildLoginForm()),    "login");

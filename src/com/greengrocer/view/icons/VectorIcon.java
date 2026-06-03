@@ -23,7 +23,7 @@ public final class VectorIcon implements Icon {
 
     /** Figuras disponibles, una por módulo/acción de la aplicación. */
     public enum Glyph {
-        HOME, CART, BOX, TAG, USER, USERS, TRUCK, RECEIPT, CHART, LOGOUT, LEAF
+        HOME, CART, BOX, TAG, USER, USERS, TRUCK, RECEIPT, CHART, LOGOUT, LEAF, EYE, EYE_OFF
     }
 
     private final Glyph glyph;
@@ -73,6 +73,8 @@ public final class VectorIcon implements Icon {
             case CHART:   paintChart(g2, p, s);   break;
             case LOGOUT:  paintLogout(g2, p, s);  break;
             case LEAF:    paintLeaf(g2, p, s);    break;
+            case EYE:     paintEye(g2, p, s);     break;
+            case EYE_OFF: paintEyeOff(g2, p, s);  break;
         }
         g2.dispose();
     }
@@ -172,6 +174,21 @@ public final class VectorIcon implements Icon {
         leaf.closePath();
         g.draw(leaf);
         g.draw(poly(p, s, false, 0.30,0.72, 0.74,0.32)); // nervadura central
+    }
+
+    private void paintEye(Graphics2D g, double p, double s) {
+        Path2D.Double eye = new Path2D.Double();
+        eye.moveTo(p + s * 0.06, p + s * 0.50);
+        eye.quadTo(p + s * 0.50, p + s * 0.18, p + s * 0.94, p + s * 0.50);
+        eye.quadTo(p + s * 0.50, p + s * 0.82, p + s * 0.06, p + s * 0.50);
+        eye.closePath();
+        g.draw(eye);
+        g.draw(circle(p, s, 0.50, 0.50, 0.15)); // pupila
+    }
+
+    private void paintEyeOff(Graphics2D g, double p, double s) {
+        paintEye(g, p, s);
+        g.draw(poly(p, s, false, 0.14, 0.14, 0.86, 0.86)); // tachado diagonal
     }
 
     // ----------------------------------------------------------------- helpers

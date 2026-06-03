@@ -51,9 +51,10 @@ public class MainDashboard extends JFrame {
     public MainDashboard() {
         setTitle(AppConfig.get().businessName() + " · Sistema de gestión");
         setIconImage(new VectorIcon(VectorIcon.Glyph.LEAF, 32, ColorPalette.PRIMARY).toImage());
-        setSize(1200, 760);
+        setSize(1200, 760);                       // tamaño al restaurar
         setMinimumSize(new Dimension(1100, 700));
         setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);   // arranca maximizada
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
