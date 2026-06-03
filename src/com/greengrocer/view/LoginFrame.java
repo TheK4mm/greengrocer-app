@@ -176,7 +176,7 @@ public class LoginFrame extends JFrame {
         form.add(Box.createVerticalStrut(12));
         form.add(btnRegistrar);
         form.add(Box.createVerticalStrut(24));
-        form.add(label("admin / admin123 al primer arranque", FontPalette.SMALL, ColorPalette.TEXT_MUTED));
+
 
         return wrapForm(form);
     }

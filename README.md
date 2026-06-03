@@ -14,7 +14,8 @@ Aplicación de escritorio para administrar una verdulería: catálogo de product
 | Capa            | Tecnología                                    |
 |-----------------|------------------------------------------------|
 | Lenguaje        | Java 21+ (compilado a 24)                     |
-| Interfaz        | `javax.swing` con componentes flat propios    |
+| Interfaz        | `javax.swing` con componentes propios         |
+| Look & Feel     | FlatLaf 3.7.1 (incluido en `lib/`)            |
 | Persistencia    | MySQL 8.x vía JDBC                            |
 | Driver          | `mysql-connector-j` 9.7.0 (incluido en `lib/`) |
 | Build           | Apache Ant / NetBeans (`build.xml` incluido)  |
@@ -87,7 +88,8 @@ Vista (Panel)  →  Service  →  DAO  →  DatabaseConnection (JDBC)
 
 - **JDK 21+** (testeado con OpenJDK Temurin 25)
 - **MySQL Server 8.x** corriendo en `localhost:3306`
-- **NetBeans 17+ con Ant** *o* `javac`/`java` desde consola
+- Un entorno para compilar/ejecutar: **NetBeans 17+ con Ant**,
+  **VS Code** con el *Extension Pack for Java*, *o* `javac`/`java` desde consola
 
 ---
 
@@ -121,30 +123,71 @@ business.currencySymbol=$
 
 ### 3. Compilar y ejecutar
 
+Los `.jar` necesarios (`mysql-connector-j` y `flatlaf`) ya vienen en `lib/`
+y están referenciados por `nbproject/project.properties`. Se requiere un
+**JDK 21+** instalado.
+
 #### Opción A — NetBeans
 
 1. Abrir el proyecto en NetBeans (detecta el `nbproject/`).
 2. `Run > Clean and Build Project` (genera `dist/Verduleria.jar`).
 3. `Run > Run Project`.
 
-El driver MySQL ya está vendido en `lib/mysql-connector-j-9.7.0.jar`
-y referenciado por `nbproject/project.properties`.
+#### Opción B — Visual Studio Code
 
-#### Opción B — Línea de comandos
+1. Instalar el **Extension Pack for Java** (Microsoft) y un JDK 21+.
+2. Abrir la carpeta del proyecto (`File > Open Folder…`).
+3. Crear `.vscode/settings.json` para fijar la raíz de fuentes y tomar las
+   librerías de `lib/`:
+
+   ```json
+   {
+     "java.project.sourcePaths": ["src"],
+     "java.project.referencedLibraries": ["lib/**/*.jar"]
+   }
+   ```
+
+4. Abrir `src/com/greengrocer/view/Main.java` y pulsar **Run** sobre el
+   método `main()` (o `F5`). Como `app.properties` está en `src/`, viaja al
+   classpath automáticamente.
+
+#### Opción C — Línea de comandos
+
+**Con Ant** (usa el `build.xml` incluido) — la vía más simple:
 
 ```bash
-# Compilar en windows (desde la raíz del proyecto)
-javac -d build/classes -cp "lib/mysql-connector-j-9.7.0.jar" (Get-ChildItem -Path src -Filter *.java -Recurse | ForEach-Object {$_.FullName})
-
-# Copiar el archivo de configuración al classpath compilado
-copy src/app.properties build/classes/
-
-# Ejecutar
-java -cp "build/classes;lib/mysql-connector-j-9.7.0.jar" com.greengrocer.view.Main
+ant clean jar                 # compila y arma dist/Verduleria.jar (+ dist/lib/)
+java -jar dist/Verduleria.jar
+# o, en un solo paso:
+ant run
 ```
 
-> En Windows con CMD/PowerShell, reemplazar el separador `;` se mantiene;
-> en Linux/Mac se usa `:`.
+**Solo con el JDK** (sin Ant), desde la raíz del proyecto:
+
+<details>
+<summary>Windows (PowerShell)</summary>
+
+```powershell
+$cp  = "lib\mysql-connector-j-9.7.0.jar;lib\flatlaf-3.7.1.jar"
+$src = (Get-ChildItem -Recurse src\com -Filter *.java).FullName
+javac -encoding UTF-8 -cp $cp -d build\classes $src
+java  -cp "build\classes;src;$cp" com.greengrocer.view.Main
+```
+</details>
+
+<details>
+<summary>Linux / macOS (bash)</summary>
+
+```bash
+CP="lib/mysql-connector-j-9.7.0.jar:lib/flatlaf-3.7.1.jar"
+javac -encoding UTF-8 -cp "$CP" -d build/classes $(find src/com -name '*.java')
+java  -cp "build/classes:src:$CP" com.greengrocer.view.Main
+```
+</details>
+
+> En el modo manual, incluir `src` en el classpath de ejecución permite que
+> `AppConfig` encuentre `app.properties` (se carga como recurso
+> `/app.properties`). Con Ant o el `.jar` empaquetado esto ya está resuelto.
 
 ### 4. Primer inicio de sesión
 
@@ -201,6 +244,7 @@ greengrocer-app/
 ├── manifest.mf
 ├── nbproject/                # configuración de proyecto NetBeans
 ├── lib/
+│   ├── flatlaf-3.7.1.jar
 │   └── mysql-connector-j-9.7.0.jar
 ├── database/
 │   ├── 01_schema.sql
