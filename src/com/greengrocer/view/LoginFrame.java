@@ -175,8 +175,6 @@ public class LoginFrame extends JFrame {
         form.add(btnIngresar);
         form.add(Box.createVerticalStrut(12));
         form.add(btnRegistrar);
-        form.add(Box.createVerticalStrut(24));
-
 
         return wrapForm(form);
     }
