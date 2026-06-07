@@ -1,4 +1,4 @@
-# GreengrocerApp · Sistema de gestión para verdulería
+# La Cosecha Greengrocer App - Sistema de gestión para verdulería
 
 Aplicación de escritorio para administrar una verdulería: catálogo de productos, control de inventario, clientes, proveedores, punto de venta, historial de ventas y reportes. Construida con **Java + Swing + MySQL** bajo una arquitectura por capas (Modelo / DAO / Servicio / Vista) sobre la base del paradigma de Programación Orientada a Objetos.
 
